@@ -2,15 +2,15 @@
 #    Chrome Variables   ##
 ######################
 $Localchromepath            = "c:\temp\chrome\"
-$ChromeURI              = 'https://aka.ms/fslogix_download'
-$ChromeInstaller             = 'FSLogixAppsSetup.zip'
+$ChromeURI              = 'https://github.com/RajputDeepak/avdartifacts/blob/main/Software/Chrome/version/ChromeStandaloneSetup64.exe'
+$ChromeInstaller             = 'ChromeStandaloneSetup64.exe'
 
 
 ####################################
 #    Test/Create Temp Directory    #
 ####################################
 if((Test-Path c:\temp) -eq $false) {
-    Add-Content -LiteralPath C:\New-avdSessionHost.log "Create C:\temp Directory"
+    Add-Content -LiteralPath C:\chrome.log "Create C:\temp Directory"
     Write-Host `
         -ForegroundColor Cyan `
         -BackgroundColor Black `
@@ -18,57 +18,43 @@ if((Test-Path c:\temp) -eq $false) {
     New-Item -Path c:\temp -ItemType Directory
 }
 else {
-    Add-Content -LiteralPath C:\New-avdSessionHost.log "C:\temp Already Exists"
+    Add-Content -LiteralPath C:\chrome.log "C:\temp Already Exists"
     Write-Host `
         -ForegroundColor Yellow `
         -BackgroundColor Black `
         "temp directory already exists"
 }
-if((Test-Path $Localavdpath) -eq $false) {
-    Add-Content -LiteralPath C:\New-avdSessionHost.log "Create C:\temp\avd Directory"
+if((Test-Path $Localchromepath) -eq $false) {
+    Add-Content -LiteralPath C:\chrome.log "Create C:\temp\chrome Directory"
     Write-Host `
         -ForegroundColor Cyan `
         -BackgroundColor Black `
-        "creating c:\temp\avd directory"
-    New-Item -Path $Localavdpath -ItemType Directory
+        "creating c:\temp\chrome directory"
+    New-Item -Path $Localchromepath -ItemType Directory
 }
 else {
-    Add-Content -LiteralPath C:\New-avdSessionHost.log "C:\temp\avd Already Exists"
+    Add-Content -LiteralPath C:\chrome.log "C:\temp\chrome Already Exists"
     Write-Host `
         -ForegroundColor Yellow `
         -BackgroundColor Black `
-        "c:\temp\avd directory already exists"
+        "c:\temp\chrome directory already exists"
 }
 
 
 
 #################################
-#    Download avd Componants    #
+#    Download Chrome    #
 #################################
-Add-Content -LiteralPath C:\New-avdSessionHost.log "Downloading FSLogix"
-    Invoke-WebRequest -Uri $FSLogixURI -OutFile "$Localavdpath$FSInstaller"
+Add-Content -LiteralPath C:\chrome.log "Downloading Chrome Installer"
+    Invoke-WebRequest -Uri $ChromeURI -OutFile "$Localchromepath$ChromeInstaller"
 
 
-##############################
-#    Prep for avd Install    #
-##############################
-Add-Content -LiteralPath C:\New-avdSessionHost.log "Unzip FSLogix"
-Expand-Archive `
-    -LiteralPath "C:\temp\avd\$FSInstaller" `
-    -DestinationPath "$Localavdpath\FSLogix" `
-    -Force `
-    -Verbose
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-cd $Localavdpath 
-Add-Content -LiteralPath C:\New-avdSessionHost.log "UnZip FXLogix Complete"
-
-
+########################
+#    Chrome Install    #
 #########################
-#    FSLogix Install    #
-#########################
-Add-Content -LiteralPath C:\New-avdSessionHost.log "Installing FSLogix"
-$fslogix_deploy_status = Start-Process `
-    -FilePath "$Localavdpath\FSLogix\x64\Release\FSLogixAppsSetup.exe" `
-    -ArgumentList "/install /quiet" `
-    -Wait `
-    -Passthru
+Add-Content -LiteralPath C:\chrome.log "Installing Chrome"
+# $Chrome_deploy_status = Start-Process `
+#     -FilePath "$Localchromepath\$ChromeInstaller" `
+#     -ArgumentList "/install /quiet" `
+#     -Wait `
+#     -Passthru
