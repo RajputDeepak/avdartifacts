@@ -1,5 +1,5 @@
 ######################
-#    avd Variables   #
+#    avd Variables   ##
 ######################
 $Localavdpath            = "c:\temp\avd\"
 $FSLogixURI              = 'https://aka.ms/fslogix_download'
